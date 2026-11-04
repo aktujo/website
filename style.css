@@ -1,0 +1,118 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* aktujo – one page. Near-black, one accent (sealing-wax red), straight edges; headings in Space Mono (self-hosted,
+   fonts/), the rest in system fonts – nothing is loaded from elsewhere. Colours from aktujo/brand/generate.py.
+   Light or dark follows the system, or the visitor's choice (data-theme on <html>, set by the switch in the header).
+   The red is for areas, never for small text on dark: links are light with a red underline and turn into a red
+   block on hover and focus; buttons are red with white text. */
+
+@font-face { font-family: "Space Mono"; src: url("fonts/SpaceMono-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root {
+  /* light */
+  --night: #F7F8FA;
+  --panel: #FFFFFF;
+  --text: #14202B;
+  --accent: #9E1F24;
+  --on-accent: #FFFFFF;
+  --steel: #6B7C8C;
+  --reed: #4A5563;
+  --line: #DDE2E8;
+  --head: "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --night: #0D1117; --panel: #12171E; --text: #E6EDF3; --accent: #B3262B;
+    --steel: #5B7083; --reed: #8B949E; --line: #1C232B; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --night: #0D1117; --panel: #12171E; --text: #E6EDF3; --accent: #B3262B;
+  --steel: #5B7083; --reed: #8B949E; --line: #1C232B; color-scheme: dark;
+}
+
+/* the inline logo and mark take the theme's colours */
+.lf { fill: var(--text); }
+.ls { stroke: var(--text); }
+.la { fill: var(--accent); }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--text); background: var(--night); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--text); text-decoration: underline 2px var(--accent); text-underline-offset: 4px; }
+a:hover, a:focus-visible { background: var(--accent); color: var(--on-accent); text-decoration: none; outline: none; }
+::selection { background: var(--accent); color: var(--on-accent); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+/* header */
+header { padding: 22px 0; border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+header .logo { height: 34px; width: auto; display: block; }
+header a:hover, header a:focus-visible { background: none; }
+nav { display: flex; gap: 22px; font: 14px var(--mono); margin-left: auto; }
+.theme { display: flex; gap: 2px; padding: 2px; border: 1px solid var(--line); }
+.theme[hidden] { display: none; }
+.theme button { appearance: none; display: grid; place-items: center; width: 30px; height: 28px; padding: 0; border: 0;
+  background: none; color: var(--reed); cursor: pointer; }
+.theme button:hover { color: var(--text); }
+.theme button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.theme button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.theme svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+nav a { color: var(--reed); text-decoration: none; }
+nav a::before { content: "./"; color: var(--steel); }
+nav a:hover, nav a:focus-visible { color: var(--text); background: none; }
+
+/* hero */
+.hero { padding: 80px 0 64px; }
+.hero .wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; }
+.prompt { font: 15px var(--mono); color: var(--reed); margin: 0 0 18px; }
+.prompt b { color: var(--steel); font-weight: 400; }
+.hero h1 { font: 700 clamp(30px, 4.6vw, 48px)/1.15 var(--head); margin: 0 0 22px; letter-spacing: -0.02em; }
+.cursor { display: inline-block; width: 0.5em; height: 0.9em; margin-left: 0.15em; vertical-align: -0.08em; background: var(--accent); animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+.hero p { color: var(--reed); font-size: 18px; margin: 0 0 30px; max-width: 36em; }
+.hero p strong { color: var(--text); }
+.hero .mark { width: 100%; max-width: 300px; height: auto; justify-self: center; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.button { display: inline-block; padding: 10px 18px; border: 1px solid var(--line); font: 700 14px var(--mono); color: var(--text); background: var(--panel); text-decoration: none; }
+.button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.button:hover, .button:focus-visible { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+
+/* sections */
+section { padding: 64px 0; border-top: 1px solid var(--line); }
+section h2 { font: 400 14px var(--mono); color: var(--reed); margin: 0 0 24px; }
+section h2::before { content: "// "; color: var(--steel); }
+section > .wrap > p { color: var(--reed); max-width: 46em; margin: 0 0 24px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.cell { background: var(--panel); padding: 22px; }
+.cell h3 { margin: 0 0 8px; font: 700 15px var(--head); }
+.cell h3::before { content: "> "; color: var(--steel); }
+.cell p { margin: 0; color: var(--reed); font-size: 15px; }
+
+/* the name */
+pre.story { font: clamp(15px, 2.4vw, 22px)/1.7 var(--mono); margin: 0 0 18px; color: var(--reed); white-space: pre-wrap; }
+pre.story b { background: var(--accent); color: var(--on-accent); font-weight: 700; padding: 0 0.1em; }
+pre.story i { color: var(--text); font-style: normal; }
+
+/* footer */
+footer { border-top: 1px solid var(--line); padding: 26px 0 44px; color: var(--reed); font: 13px var(--mono); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--reed); text-decoration-color: var(--steel); }
+footer a:hover, footer a:focus-visible { color: var(--on-accent); }
+
+/* 404 */
+.page { padding: 40px 0 72px; max-width: 760px; }
+.page h1 { font: 700 30px var(--head); margin: 0 0 24px; }
+.page p { color: var(--reed); }
+
+@media (max-width: 760px) {
+  .hero { padding-top: 48px; }
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero .mark { max-width: 160px; order: -1; justify-self: start; }
+  nav { display: none; }
+  .theme { margin-left: auto; }
+}
